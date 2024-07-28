@@ -35,6 +35,7 @@ if (args._.includes("init")) {
   );
 
   console.log("Initialized!");
+  Deno.exit();
 }
 
 const schema = await loadSchema(
