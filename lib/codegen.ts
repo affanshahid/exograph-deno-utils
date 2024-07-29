@@ -127,7 +127,8 @@ export async function generateGqlTagOperations(
 export function generateHeader(): string {
   return `// deno-lint-ignore-file
 
-import { TypedDocumentNode } from "https://deno.land/x/exograph_deno_utils@v0.0.1/mod.ts";
+import { TypedDocumentNode } from "https://deno.land/x/exograph_deno_utils@v0.0.3/mod.ts";
+
 `;
 }
 
