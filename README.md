@@ -86,7 +86,7 @@ deno run -A https://deno.land/x/exograph_deno_utils@v0.0.5/codegen.ts
 
 This will generate typed operations for all operations defined using `graphql()` and automatically return the typed documents from the function calls.
 
-The generated types can be used in calls to `executeQueryPriv()` or `executeQuery()` from `gql.ts` which are wrappers functions that infer the response and variables types from the typed documents.
+The generated types can be used in calls to `executeQueryPriv()` or `executeQuery()` from `gql.ts` which are wrappers functions that infer the response and variable types from the typed documents.
 
 ```ts
 import type { Exograph } from "../generated/exograph.d.ts";
