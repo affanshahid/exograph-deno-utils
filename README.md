@@ -10,11 +10,11 @@ Utilities that improve developer experience when building Deno modules in [Exogr
 ### Quick Start
 ```sh
 # Initialize
-deno run -A https://deno.land/x/exograph_deno_utils@v0.0.5/codegen.ts init
+deno run -A https://deno.land/x/exograph_deno_utils@v0.0.6/codegen.ts init
 
 # Generate typed documents for all operations using the generated `graphql()`
 # function from `src/gql.ts`
-deno run -A https://deno.land/x/exograph_deno_utils@v0.0.5/codegen.ts
+deno run -A https://deno.land/x/exograph_deno_utils@v0.0.6/codegen.ts
 ```
 
 ```ts
@@ -24,7 +24,7 @@ import type { ExographPriv } from "../generated/exograph.d.ts";
 import { graphql } from "./gql.ts";
 
 // Helper function that infers types from typed operations
-import { executeQueryPriv } from "https://deno.land/x/exograph_deno_utils@v0.0.5/mod.ts";
+import { executeQueryPriv } from "https://deno.land/x/exograph_deno_utils@v0.0.6/mod.ts";
 
 const venuesDocument = graphql(`
   query venues($param: String!) {
@@ -58,7 +58,7 @@ Exograph allows you to interact with your schema using GraphQL operations in you
 #### Initializing
 
 ```sh
-deno run -A https://deno.land/x/exograph_deno_utils@v0.0.5/codegen.ts init
+deno run -A https://deno.land/x/exograph_deno_utils@v0.0.6/codegen.ts init
 ```
 
 This will generate a `gql.ts` file inside the `src` folder (configurable) which contains a `graphql()` function that you can use to write your GraphQL operations.
@@ -81,7 +81,7 @@ const venuesDocument = graphql(`
 #### Type Generation and Usage
 
 ```sh
-deno run -A https://deno.land/x/exograph_deno_utils@v0.0.5/codegen.ts
+deno run -A https://deno.land/x/exograph_deno_utils@v0.0.6/codegen.ts
 ```
 
 This will generate typed operations for all operations defined using `graphql()` and automatically return the typed documents from the function calls.
@@ -90,7 +90,7 @@ The generated types can be used in calls to `executeQueryPriv()` or `executeQuer
 
 ```ts
 import type { Exograph } from "../generated/exograph.d.ts";
-import { executeQuery } from "https://deno.land/x/exograph_deno_utils@v0.0.5/mod.ts";
+import { executeQuery } from "https://deno.land/x/exograph_deno_utils@v0.0.6/mod.ts";
 
 export async function process(exograph: Exograph): Promise<string> {
   // `venues` has the correct inferred type based on the query above
