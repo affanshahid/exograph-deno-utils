@@ -113,7 +113,7 @@ export async function generateGqlTagOperations(
     schema: schemaDocument,
     plugins: [
       {
-        gqlOperations: { sourcesWithOperations },
+        gqlOperations: { sourcesWithOperations, gqlTagName: "graphql" },
       },
     ],
     pluginMap: {
@@ -127,11 +127,11 @@ export async function generateGqlTagOperations(
 export function generateHeader(): string {
   return `// deno-lint-ignore-file
 
-import { TypedDocumentNode } from "https://deno.land/x/exograph_deno_utils@v0.0.4/mod.ts";
+import { TypedDocumentNode } from "https://deno.land/x/exograph_deno_utils@v0.0.5/mod.ts";
 
 `;
 }
 
 export function generateGqlStub(): string {
-  return `export function gql(source: string): unknown { return  {}; }`;
+  return `export function graphql(source: string): unknown { return  {}; }`;
 }
