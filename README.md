@@ -12,7 +12,8 @@ Utilities that improve developer experience when building Deno modules in [Exogr
 # Initialize
 deno run -A https://deno.land/x/exograph_deno_utils@v0.0.5/codegen.ts init
 
-# Generate typed documents for all operations using the generated `graphql()` function from `src/gql.ts`
+# Generate typed documents for all operations using the generated `graphql()`
+# function from `src/gql.ts`
 deno run -A https://deno.land/x/exograph_deno_utils@v0.0.5/codegen.ts
 ```
 
@@ -33,7 +34,8 @@ const venuesDocument = graphql(`
   }
 `);
 
-// Uncommenting the lines below will cause type errors that prevent incorrect usage of the operations and their associated data
+// Uncommenting the lines below will cause type errors that prevent incorrect usage
+// of the operations and their associated data
 export async function doSomething(
   name: string,
   exograph: ExographPriv,
