@@ -9,19 +9,6 @@ import { Source } from "npm:@graphql-tools/utils";
 import { ClientSideBaseVisitor } from "npm:@graphql-codegen/visitor-plugin-common";
 import { processSources } from "./process-sources.ts";
 
-function stripImports(input: string): string {
-  return input
-    .replaceAll("import * as types from './graphql.js';", "")
-    .replaceAll(
-      "import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';",
-      "",
-    );
-}
-
-function renameDocumentNodeType(input: string): string {
-  return input.replaceAll("DocumentNode", "TypedDocumentNode");
-}
-
 export async function generateSchemaTypes(
   schemaDocument: DocumentNode,
   documents: Types.DocumentFile[],
@@ -78,7 +65,9 @@ export async function generateTypedDocuments(
     schema: schemaDocument,
     plugins: [
       {
-        typedDocument: {},
+        typedDocument: {
+          documentMode: "string",
+        },
       },
     ],
     pluginMap: {
@@ -86,7 +75,12 @@ export async function generateTypedDocuments(
     },
   });
 
-  return renameDocumentNodeType(stripImports(output)) + "\n";
+  return (
+    output.replaceAll(
+      "import { DocumentTypeDecoration } from '@graphql-typed-document-node/core';",
+      "import { DocumentTypeDecoration } from 'https://deno.land/x/exograph_deno_utils@v0.0.7/mod.ts';",
+    ) + "\n"
+  );
 }
 
 export async function generateGqlTagOperations(
@@ -113,7 +107,11 @@ export async function generateGqlTagOperations(
     schema: schemaDocument,
     plugins: [
       {
-        gqlOperations: { sourcesWithOperations, gqlTagName: "graphql" },
+        gqlOperations: {
+          sourcesWithOperations,
+          gqlTagName: "graphql",
+          documentMode: "string",
+        },
       },
     ],
     pluginMap: {
@@ -121,15 +119,14 @@ export async function generateGqlTagOperations(
     },
   });
 
-  return renameDocumentNodeType(stripImports(output.replaceAll("types.", "")));
+  return output
+    .replaceAll("import * as types from './graphql.js';\n", "")
+    .replaceAll("types.", "")
+    .replaceAll("typeof import('./graphql.js').", "typeof ");
 }
 
 export function generateHeader(): string {
-  return `// deno-lint-ignore-file
-
-import { TypedDocumentNode } from "https://deno.land/x/exograph_deno_utils@v0.0.6/mod.ts";
-
-`;
+  return "// deno-lint-ignore-file\n\n";
 }
 
 export function generateGqlStub(): string {

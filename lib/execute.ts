@@ -4,16 +4,16 @@ import {
   AnyVariables,
   ContextOverride,
 } from "https://deno.land/x/exograph@v0.9.4/index.ts";
-import { TypedDocumentNode } from "./typed-document-node.ts";
-import { print } from "npm:graphql";
+import { DocumentTypeDecoration } from "./typed-document-node.ts";
+import { assertInstanceOf } from "jsr:@std/assert@1";
 
 export function executeQueryPriv<T, R extends { [key: string]: never }>(
   exograph: ExographPriv,
-  doc: TypedDocumentNode<T, R>,
+  doc: DocumentTypeDecoration<T, R>,
 ): Promise<T>;
 export function executeQueryPriv<T, R extends AnyVariables>(
   exograph: ExographPriv,
-  doc: TypedDocumentNode<T, R>,
+  doc: DocumentTypeDecoration<T, R>,
   vars: R,
 ): Promise<T>;
 export function executeQueryPriv<
@@ -22,7 +22,7 @@ export function executeQueryPriv<
   C extends ContextOverride,
 >(
   exograph: ExographPriv,
-  doc: TypedDocumentNode<T, R>,
+  doc: DocumentTypeDecoration<T, R>,
   vars: R,
   contextOverride: ContextOverride,
 ): Promise<T>;
@@ -32,11 +32,14 @@ export function executeQueryPriv<
   C extends ContextOverride,
 >(
   exograph: ExographPriv,
-  doc: TypedDocumentNode<T, R>,
+  doc: DocumentTypeDecoration<T, R>,
   vars?: R,
   contextOverride?: C,
 ): Promise<T> {
-  const op = print(doc);
+  assertInstanceOf(doc, String, "Expected TypeDocumentString");
+
+  // Convert from String to string
+  const op = doc.toString();
 
   if (vars === undefined) {
     if (contextOverride !== undefined) {
@@ -59,19 +62,22 @@ export function executeQueryPriv<
 
 export function executeQuery<T, R extends { [key: string]: never }>(
   exograph: Exograph | ExographPriv,
-  doc: TypedDocumentNode<T, R>,
+  doc: DocumentTypeDecoration<T, R>,
 ): Promise<T>;
 export function executeQuery<T, R extends AnyVariables>(
   exograph: Exograph | ExographPriv,
-  doc: TypedDocumentNode<T, R>,
+  doc: DocumentTypeDecoration<T, R>,
   vars: R,
 ): Promise<T>;
 export function executeQuery<T, R extends AnyVariables>(
   exograph: Exograph | ExographPriv,
-  doc: TypedDocumentNode<T, R>,
+  doc: DocumentTypeDecoration<T, R>,
   vars?: R,
 ): Promise<T> {
-  const op = print(doc);
+  assertInstanceOf(doc, String, "Expected TypeDocumentString");
+
+  // Convert from String to string
+  const op = doc.toString();
 
   if (vars == undefined) {
     return exograph.executeQuery<T>(op);
